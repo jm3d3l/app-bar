@@ -56,13 +56,7 @@ class ButtonAppBar extends Component {
     this.getScreenWidth();
     window.addEventListener('resize', this.getScreenWidth)
   }
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if(prevState.width !== nextProps.width) {
-      return {
-        width : prevState.width
-      }
-    }
-  }
+
 
   sideList = () => {
     const { classes } = this.props;
@@ -99,30 +93,32 @@ class ButtonAppBar extends Component {
   };
 
   getScreenWidth = () => {
-    let s = window.innerWidth;
-    //   this.setState({width: s})
-    console.log(s);
+    let screenWidth = window.innerWidth;
+      this.setState({width: screenWidth})
   };
   render() {
-    console.log(this.state.width);
     const { classes } = this.props;
+    const {width} = this.state;
+    console.log(width)
+    let smWidth = 768;
 
+    if(smWidth === width) console.log(`${width} ${smWidth}`)
     return (
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton
+           {width <= smWidth   ?  <IconButton
               onClick={this.toggleDrawer("left", true)}
               className={classes.moreIcon}
               color="inherit"
               aria-label="Menu"
             >
               <MenuIcon />
-            </IconButton>
+            </IconButton> : ''}
             <Typography
               variant="h6"
               color="inherit"
-              className={classes.lgBreakpoints}
+              // className={classes.lgBreakpoints}
             >
               News
             </Typography>
@@ -147,7 +143,7 @@ class ButtonAppBar extends Component {
             onKeyDown={this.toggleDrawer("left", false)}
           >
             {this.sideList()}
-            {this.getScreenWidth()}
+            {this.getScreenWidth}
           </div>
         </SwipeableDrawer>
       </div>
